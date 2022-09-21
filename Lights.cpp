@@ -56,6 +56,12 @@ static int state2brightbess(const HwLightState& state) {
 const char* getDriverPath(LightType type) {
     switch (type) {
         case LightType::BACKLIGHT:
+            if (access("/sys/class/backlight/panel_backlight-0/brightness", F_OK) == 0)
+                return "/sys/class/backlight/panel_backlight-0/brightness";
+
+            if (access("/sys/class/backlight/panel_backlight-1/brightness", F_OK) == 0)
+                return "/sys/class/backlight/panel_backlight-1/brightness";
+
             return "/sys/class/backlight/backlight/brightness";
         case LightType::BUTTONS:
             return "/sys/class/leds/button-backlight/brightness";
